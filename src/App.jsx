@@ -12,6 +12,7 @@ import MainLayout from "./layouts/MainLayout";
 // Pages
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -19,6 +20,7 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="auth" element={<Auth />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     )
   );
