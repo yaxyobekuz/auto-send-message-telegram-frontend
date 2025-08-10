@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 
 // Hooks
+import useStore from "../hooks/useStore";
 import useTelegram from "../hooks/useTelegram";
 
 // Components
@@ -25,6 +26,7 @@ const Home = () => {
 };
 
 const AuthenticatedUser = () => {
+  const { data } = useStore("user");
   const { user, setHeaderColor } = useTelegram();
   const { first_name: firstName, photo_url: photoUrl, username } = user || {};
 
@@ -64,7 +66,11 @@ const AuthenticatedUser = () => {
               {firstName || "Foydalanuvchi"}
             </h1>
 
-            <p className="text-blue-500">@{username || "username"}</p>
+            <div className="flex items-center gap-2 line-clamp-1">
+              <p className="text-blue-500">@{username || "username"}</p>
+              <span>|</span>
+              <p className="text-gray-500">{data.role}</p>
+            </div>
           </div>
         </div>
       </div>

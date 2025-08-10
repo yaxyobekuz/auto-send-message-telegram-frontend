@@ -27,18 +27,11 @@ const Auth = () => {
 
     api
       .post("/api/auth/send-code", { phone: formattedPhone })
-      .then(({ data }) => {
-        const { ok } = data || {};
+      .then(({ ok }) => {
         if (!ok) throw new Error();
         setStep(2);
       })
-      .catch((err) => {
-        if (!err?.response?.data) {
-          return setMsg(`Nimadir xato ketdi: ${err.message}`);
-        }
-
-        return setMsg(err.response.data.error);
-      })
+      .catch((res) => setMsg(res.error || "Nimadir xato ketdi"))
       .finally(() => setIsLoading(false));
   };
 
@@ -48,8 +41,7 @@ const Auth = () => {
 
     api
       .post("/api/auth/verify-code", { phone: formattedPhone, code })
-      .then(({ data }) => {
-        const { ok, token } = data || {};
+      .then(({ ok, token }) => {
         if (!ok) throw new Error();
 
         const auth = JSON.stringify({ token, createdAt: Date.now });
@@ -57,22 +49,22 @@ const Auth = () => {
         navigate("/");
         setStep(3);
       })
-      .catch((err) => {
-        if (!err?.response?.data) {
-          return setMsg(`Nimadir xato ketdi: ${err.message}`);
+      .catch((res) => {
+        if (!res) {
+          return setMsg(`Nimadir xato ketdi: ${JSON.stringify(res)}`);
         }
 
-        if (err.response.data.error === "PHONE_CODE_INVALID") {
+        if (res.error === "PHONE_CODE_INVALID") {
           return setMsg("Kod noto'g'ri kiritildi");
         }
 
-        if (err.response.data.error === "SESSION_PASSWORD_NEEDED") {
+        if (res.error === "SESSION_PASSWORD_NEEDED") {
           return setMsg(
             "Hisobning 2 bosqichli tekshiruvi yoqilgan. Iltimos 2 bosqichli tekshiruvni o'chirib qaytadan urinib ko'ring."
           );
         }
 
-        return setMsg(err.response.data.error);
+        return setMsg(res.error);
       })
       .finally(() => setIsLoading(false));
   };
