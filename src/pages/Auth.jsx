@@ -6,7 +6,7 @@ import api from "../api/config";
 // Helpers
 import { extractNumbers } from "../lib/utils";
 
-function Auth() {
+const Auth = () => {
   const [msg, setMsg] = useState("");
   const [step, setStep] = useState(1);
   const [code, setCode] = useState("");
@@ -15,40 +15,55 @@ function Auth() {
 
   const sendCode = () => {
     setIsLoading(true);
+    const formattedPhone = `+${extractNumbers(phone)}`;
 
     api
-      .post("/api/send-code", { phone })
+      .post("/api/auth/send-code", { phone: formattedPhone })
       .then(({ data }) => {
         const { ok } = data || {};
         if (!ok) throw new Error();
         setStep(2);
-      })
-      .catch((err) => setMsg(err.error || JSON.stringify(err)))
-      .finally(() => setIsLoading(false));
-  };
-
-  const verify = () => {
-    setIsLoading(true);
-
-    api
-      .post("/api/verify-code", { phone, code })
-      .then(({ data }) => {
-        const { ok, token } = data || {};
-        if (!ok) throw new Error();
-
-        setStep(3);
-        localStorage.setItem(JSON.stringify({ token, createdAt: Date.now }));
       })
       .catch((err) => {
         if (!err?.response?.data) {
           return setMsg(`Nimadir xato ketdi: ${err.message}`);
         }
 
-        if (err.response.data.error?.includes("SESSION_PASSWORD_NEEDED")) {
+        return setMsg(err.response.data.error);
+      })
+      .finally(() => setIsLoading(false));
+  };
+
+  const verify = () => {
+    setIsLoading(true);
+    const formattedPhone = `+${extractNumbers(phone)}`;
+
+    api
+      .post("/api/auth/verify-code", { phone: formattedPhone, code })
+      .then(({ data }) => {
+        const { ok, token } = data || {};
+        if (!ok) throw new Error();
+
+        const auth = JSON.stringify({ token, createdAt: Date.now });
+        localStorage.setItem("auth", auth);
+        setStep(3);
+      })
+      .catch((err) => {
+        if (!err?.response?.data) {
+          return setMsg(`Nimadir xato ketdi: ${err.message}`);
+        }
+
+        if (err.response.data.error === "PHONE_CODE_INVALID") {
+          return setMsg("Kod noto'g'ri kiritildi");
+        }
+
+        if (err.response.data.error === "SESSION_PASSWORD_NEEDED") {
           return setMsg(
             "Hisobning 2 bosqichli tekshiruvi yoqilgan. Iltimos 2 bosqichli tekshiruvni o'chirib qaytadan urinib ko'ring."
           );
         }
+
+        return setMsg(err.response.data.error);
       })
       .finally(() => setIsLoading(false));
   };
@@ -89,7 +104,7 @@ function Auth() {
       )}
     </div>
   );
-}
+};
 
 const StepOne = ({
   msg,
