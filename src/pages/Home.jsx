@@ -12,6 +12,7 @@ import ArrowIcon from "../components/ArrowIcon";
 
 // Icons
 import usersIcon from "../assets/icons/users.svg";
+import groupsIcon from "../assets/icons/groups.svg";
 import messagesIcon from "../assets/icons/messages.svg";
 
 // Animated stickers
@@ -47,22 +48,24 @@ const AuthenticatedUser = () => {
       </div>
 
       {/* Profile */}
-      <div className="flex items-center gap-5 relative z-10 container bg-gradient-to-b from-white to-[#f2f5fc] pt-4 pb-8 rounded-t-3xl">
-        {/* Photo */}
-        <img
-          width={56}
-          height={56}
-          src={photoUrl}
-          alt={`${firstName} profil rasmi`}
-          className="size-14 bg-gray-200 rounded-full"
-        />
+      <div className="relative z-10 bg-gradient-to-b from-white to-[#f2f5fc] pt-4 pb-8 rounded-t-3xl">
+        <div className="flex items-center gap-5 container">
+          {/* Photo */}
+          <img
+            width={56}
+            height={56}
+            src={photoUrl}
+            alt={`${firstName} profil rasmi`}
+            className="size-14 bg-gray-200 rounded-full"
+          />
 
-        <div className="space-y-1.5">
-          <h1 className="line-clamp-1 text-xl font-medium text-[#333]">
-            {firstName || "Foydalanuvchi"}
-          </h1>
+          <div className="space-y-1.5">
+            <h1 className="line-clamp-1 text-xl font-medium text-[#333]">
+              {firstName || "Foydalanuvchi"}
+            </h1>
 
-          <p className="text-blue-500">@{username || "username"}</p>
+            <p className="text-blue-500">@{username || "username"}</p>
+          </div>
         </div>
       </div>
 
@@ -103,6 +106,26 @@ const AuthenticatedUser = () => {
             />
 
             <span className="text-lg">Xabarlar</span>
+          </div>
+
+          <ArrowIcon />
+        </Link>
+
+        {/* Groups */}
+        <Link
+          to="/groups"
+          className="flex items-center gap-5 justify-between bg-white p-5 rounded-xl"
+        >
+          <div className="flex items-center gap-5">
+            <img
+              width={48}
+              height={48}
+              alt="Guruhlar"
+              src={groupsIcon}
+              className="size-12"
+            />
+
+            <span className="text-lg">Guruhlar</span>
           </div>
 
           <ArrowIcon />
