@@ -6,13 +6,14 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-// Layouts
-import MainLayout from "./layouts/MainLayout";
-
 // Pages
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
+import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
+
+// Layouts
+import MainLayout from "./layouts/MainLayout";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -21,6 +22,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="auth" element={<Auth />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="groups" element={<Groups />} />
       </Route>
     )
   );
