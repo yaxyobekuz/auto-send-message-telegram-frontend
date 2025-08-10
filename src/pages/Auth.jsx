@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Api
 import api from "../api/config";
@@ -7,11 +8,18 @@ import api from "../api/config";
 import { extractNumbers } from "../lib/utils";
 
 const Auth = () => {
+  const navigate = useNavigate();
   const [msg, setMsg] = useState("");
   const [step, setStep] = useState(1);
   const [code, setCode] = useState("");
+  const auth = localStorage.getItem("auth");
   const [phone, setPhone] = useState("+998 ");
   const [isLoading, setIsLoading] = useState(false);
+
+  // If user auth token exists navigate user
+  useEffect(() => {
+    if (auth) navigate("/");
+  }, []);
 
   const sendCode = () => {
     setIsLoading(true);
@@ -46,6 +54,7 @@ const Auth = () => {
 
         const auth = JSON.stringify({ token, createdAt: Date.now });
         localStorage.setItem("auth", auth);
+        navigate("/");
         setStep(3);
       })
       .catch((err) => {
@@ -206,7 +215,7 @@ const StepTwo = ({ msg, code, verify, updateMsg, isLoading, onCodeChange }) => {
 };
 
 const StepThree = () => {
-  return <div className="text-green-600">Siz tizimga kirdingiz!</div>;
+  return <div className="container text-green-600">Siz tizimga kirdingiz!</div>;
 };
 
 export default Auth;
