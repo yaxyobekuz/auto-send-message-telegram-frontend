@@ -24,7 +24,7 @@ const UnauthenticatedUser = () => {
             animationData={duckShrugging}
           />
 
-          <h1 className="text-xl font-medium">Hisobingizga kirmagansiz</h1>
+          <h1>Hisobingizga kirmagansiz</h1>
 
           <p className="text-gray-400 text-center">
             Botdan foydalanishdan oldin iltimos <br /> hisobingizga kiring.
