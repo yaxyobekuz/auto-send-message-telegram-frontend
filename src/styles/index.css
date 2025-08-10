@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Base --- */
+
+@layer base {
+  body {
+    @apply text-base text-gray-800 font-normal;
+  }
+}
+
+/* --- Components --- */
+
+@layer components {
+  .btn-primary {
+    @apply flex items-center justify-center w-full h-11 bg-blue-500 font-medium text-white rounded-md transition-colors duration-300 hover:bg-blue-600;
+  }
+}
+
+/* --- Utilities --- */
+
+@layer utilities {
+  .container {
+    @apply max-w-md w-full px-5 mx-auto;
+  }
+}
