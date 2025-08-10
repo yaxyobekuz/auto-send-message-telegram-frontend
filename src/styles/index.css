@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-white text-base text-gray-800 font-normal;
+    @apply bg-[#f2f5fc] text-base text-gray-800 font-normal;
   }
 
   h1 {
@@ -22,7 +22,7 @@
 
 @layer components {
   .btn-primary {
-    @apply flex items-center justify-center w-full h-12 bg-blue-500 font-medium text-white rounded-md transition-colors duration-300 hover:bg-blue-600;
+    @apply flex items-center justify-center w-full h-12 bg-blue-500 font-medium text-white rounded-md transition-colors duration-300 hover:bg-blue-600 disabled:opacity-50 disabled:hover:bg-blue-500;
   }
 }
 
@@ -30,6 +30,6 @@
 
 @layer utilities {
   .container {
-    @apply max-w-md w-full px-5 mx-auto;
+    @apply max-w-xl w-full px-4 mx-auto;
   }
 }
