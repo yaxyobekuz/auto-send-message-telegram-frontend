@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 // Api
 import api from "../api/config";
@@ -11,6 +11,7 @@ import useStore from "../hooks/useStore";
 import reloadIcon from "../assets/icons/reload.svg";
 
 const MainLayout = () => {
+  const location = useLocation();
   const auth = localStorage.getItem("auth");
   const { data, hasError, isLoading, updateData, updateLoading, updateError } =
     useStore("user");
@@ -18,20 +19,22 @@ const MainLayout = () => {
   const loadUser = () => {
     updateError(false);
     updateLoading(true);
+
     api
       .get("/api/users/user/me")
       .then(({ ok, user }) => {
         if (!ok) throw new Error();
         updateData(user);
       })
-      .catch((err) => updateError(true))
+      .catch(() => updateError(true))
       .finally(() => updateLoading(false));
   };
 
   useEffect(() => {
     const token = JSON.parse(auth);
     if (token && !data) loadUser();
-  }, [JSON.stringify(data)]);
+    if (!token) updateLoading(false);
+  }, [location.pathname]);
 
   if (isLoading) return <LoadingContent />;
   if (hasError) return <ErrorContent loadUser={loadUser} />;

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Lottie
 import Lottie from "lottie-react";
@@ -13,6 +13,7 @@ import ArrowIcon from "../components/ArrowIcon";
 
 // Icons
 import usersIcon from "../assets/icons/users.svg";
+import logoutIcon from "../assets/icons/logout.svg";
 import groupsIcon from "../assets/icons/groups.svg";
 import messagesIcon from "../assets/icons/messages.svg";
 
@@ -26,7 +27,8 @@ const Home = () => {
 };
 
 const AuthenticatedUser = () => {
-  const { data } = useStore("user");
+  const navigate = useNavigate();
+  const { data, clearData } = useStore("user");
   const { user, setHeaderColor } = useTelegram();
   const { first_name: firstName, photo_url: photoUrl, username } = user || {};
 
@@ -34,8 +36,14 @@ const AuthenticatedUser = () => {
     setHeaderColor("#2563eb");
   }, []);
 
+  const handleLogout = () => {
+    clearData();
+    navigate("/auth");
+    localStorage.removeItem("auth");
+  };
+
   return (
-    <div className="">
+    <div className="flex flex-col min-h-screen">
       {/* Top */}
       <div className="bg-gradient-to-b from-blue-600 to-blue-400 pt-5 pb-10 -mb-5 z-0">
         <div className="flex items-center justify-between gap-3.5 container">
@@ -50,7 +58,7 @@ const AuthenticatedUser = () => {
       </div>
 
       {/* Profile */}
-      <div className="relative z-10 bg-gradient-to-b from-white to-[#f2f5fc] pt-4 pb-8 rounded-t-3xl">
+      <div className="relative z-10 bg-[#f2f5fc] pt-4 pb-5 rounded-t-3xl">
         <div className="flex items-center gap-5 container">
           {/* Photo */}
           <img
@@ -69,7 +77,7 @@ const AuthenticatedUser = () => {
             <div className="flex items-center gap-2 line-clamp-1">
               <p className="text-blue-500">@{username || "username"}</p>
               <span>|</span>
-              <p className="text-gray-500">{data.role}</p>
+              <p className="text-gray-500">{data?.role}</p>
             </div>
           </div>
         </div>
@@ -136,6 +144,31 @@ const AuthenticatedUser = () => {
 
           <ArrowIcon />
         </Link>
+      </div>
+
+      {/* Logout */}
+      <div className="container mt-auto py-5">
+        <details className="bg-white p-5 rounded-2xl">
+          <summary className="flex items-center justify-between">
+            <img
+              width={48}
+              height={48}
+              alt="Chiqish"
+              src={logoutIcon}
+              className="size-12"
+            />
+
+            <span className="text-lg">Hisobdan chiqish</span>
+          </summary>
+          <div className="pt-5">
+            <button
+              onClick={handleLogout}
+              className="btn-primary bg-red-100 text-red-500"
+            >
+              Chiqish
+            </button>
+          </div>
+        </details>
       </div>
     </div>
   );
