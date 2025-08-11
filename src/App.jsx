@@ -12,6 +12,8 @@ import Auth from "./pages/Auth";
 import Users from "./pages/Users";
 import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
+import Messages from "./pages/Messages";
+import NewMessage from "./pages/NewMessage";
 
 // Layouts
 import MainLayout from "./layouts/MainLayout";
@@ -25,6 +27,8 @@ const App = () => {
         <Route path="*" element={<NotFound />} />
         <Route path="users" element={<Users />} />
         <Route path="groups" element={<Groups />} />
+        <Route path="messages" element={<Messages />} />
+        <Route path="messages/new" element={<NewMessage />} />
       </Route>
     )
   );
