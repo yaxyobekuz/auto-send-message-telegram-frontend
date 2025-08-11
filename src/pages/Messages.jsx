@@ -33,11 +33,6 @@ const Content = () => {
   const { setHeaderColor } = useTelegram();
   const { data: userData } = useStore("user");
 
-  if (userData?.role !== "owner") {
-    window.location.href = "/";
-    return <i>Foydalanuvchilarni olish uchun ega huquqi bo'lishi kerak!</i>;
-  }
-
   useEffect(() => {
     setHeaderColor("#f2f5fc");
   }, []);

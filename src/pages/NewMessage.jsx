@@ -1,7 +1,13 @@
-import React, { useState } from "react";
-import PageHeader from "../components/PageHeader";
+import { useState } from "react";
+
+// Api
 import api from "../api/config";
+
+// Hooks
 import useStore from "../hooks/useStore";
+
+// Components
+import PageHeader from "../components/PageHeader";
 
 const NewMessage = () => {
   const [time, setTime] = useState("");
@@ -19,11 +25,12 @@ const NewMessage = () => {
     });
   };
 
-  const handleAddMessages = () => {
+  const handleAddMessage = () => {
     if (isLoading || !time || !name) return;
     setIsLoading(true);
 
-    const filteredMessages = messages.filter(Boolean);
+    const filteredMessages = messages.filter((m) => m?.trim() !== "");
+
     api
       .post("/api/messages/new", { name, time, messages: filteredMessages })
       .then(({ ok, message }) => {
@@ -100,7 +107,7 @@ const NewMessage = () => {
           <button
             disabled={isLoading}
             className="btn-primary"
-            onClick={handleAddMessages}
+            onClick={handleAddMessage}
           >
             Qo'shish{isLoading && "..."}
           </button>
