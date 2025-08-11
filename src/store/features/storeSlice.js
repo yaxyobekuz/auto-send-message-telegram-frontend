@@ -18,6 +18,12 @@ export const storeSlice = createSlice({
       state[selector].data = { ...state[selector].data, ...data };
     },
 
+    clearDataFromStore: (state, { payload }) => {
+      const { selector } = payload || {};
+      if (!state[selector]) return;
+      state[selector].data = initialState[selector].data;
+    },
+
     updateLoadingFromStore: (state, { payload }) => {
       const { selector, value } = payload || {};
       if (!state[selector]) return;
@@ -36,6 +42,7 @@ export const storeSlice = createSlice({
 
 // Export action creators
 export const {
+  clearDataFromStore,
   updateDataFromStore,
   updateErrorFromStore,
   updateLoadingFromStore,

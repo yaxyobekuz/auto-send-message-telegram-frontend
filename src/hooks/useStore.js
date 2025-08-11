@@ -1,4 +1,5 @@
 import {
+  clearDataFromStore,
   updateDataFromStore,
   updateErrorFromStore,
   updateLoadingFromStore,
@@ -14,6 +15,10 @@ const useStore = (selector) => {
     dispatch(updateDataFromStore({ selector, data }));
   };
 
+  const clearData = () => {
+    dispatch(clearDataFromStore({ selector }));
+  };
+
   const updateLoading = (value) => {
     dispatch(updateLoadingFromStore({ selector, value }));
   };
@@ -27,6 +32,7 @@ const useStore = (selector) => {
     dispatch,
     hasError,
     isLoading,
+    clearData,
     updateData,
     updateError,
     updateLoading,
