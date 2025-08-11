@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 // Api
 import api from "../api/config";
@@ -11,12 +11,11 @@ import Lottie from "lottie-react";
 import useStore from "../hooks/useStore";
 import useTelegram from "../hooks/useTelegram";
 
-// Components
-import ArrowIcon from "../components/ArrowIcon";
-
 // Icons
-import homeIcon from "../assets/icons/home.svg";
 import groupsIcon from "../assets/icons/groups.svg";
+
+// Components
+import HomepageLink from "../components/HomepageLink";
 
 // Animated stickers
 import duckHeart from "../assets/animated/duck-heart.json";
@@ -87,24 +86,7 @@ const Content = () => {
       </div>
 
       {/* Homepage link */}
-      <Link
-        to="/"
-        className="flex items-center gap-5 w-full bg-white p-5 rounded-2xl"
-      >
-        <ArrowIcon direction="left" />
-
-        <div className="flex items-center gap-5">
-          <img
-            alt="Uy"
-            width={48}
-            height={48}
-            src={homeIcon}
-            className="size-12"
-          />
-
-          <span className="text-lg">Bosh sahifa</span>
-        </div>
-      </Link>
+      <HomepageLink />
 
       {/* Groups list */}
       <GroupsList userData={userData} />
