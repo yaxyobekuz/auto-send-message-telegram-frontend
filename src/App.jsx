@@ -9,6 +9,7 @@ import {
 // Pages
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
+import Users from "./pages/Users";
 import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
 
@@ -22,6 +23,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="auth" element={<Auth />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="users" element={<Users />} />
         <Route path="groups" element={<Groups />} />
       </Route>
     )

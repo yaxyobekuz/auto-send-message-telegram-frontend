@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: { isLoading: true, hasError: false, data: null },
+  users: { isLoading: false, hasError: false, data: null },
   groups: { isLoading: false, hasError: false, data: null },
   userGroups: { isLoading: false, hasError: false, data: null },
 };
