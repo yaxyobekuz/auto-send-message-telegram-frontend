@@ -50,9 +50,10 @@ const Message = () => {
         if (!userMessagesData?.messages) return;
 
         // Update message from store
-        const messagesFromStore = [...userMessagesData?.messages];
-        const i = messagesFromStore.findIndex(({ _id }) => _id === messageId);
-        messagesFromStore[i] = message;
+        const messagesFromStore = (userMessagesData?.messages).map((m) =>
+          m._id === messageId ? message : m
+        );
+
         updateUserMessagesData({ messages: messagesFromStore });
       })
       .catch(({ error }) => alert(error || "Xabarni yangilab bo'lmadi"))
