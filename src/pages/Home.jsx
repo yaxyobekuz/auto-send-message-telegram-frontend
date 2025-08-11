@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 // Lottie
 import Lottie from "lottie-react";
 
+// Components
+import LinkBox from "../components/LinkBox";
+
 // Hooks
 import useStore from "../hooks/useStore";
 import useTelegram from "../hooks/useTelegram";
-
-// Components
-import ArrowIcon from "../components/ArrowIcon";
 
 // Icons
 import usersIcon from "../assets/icons/users.svg";
@@ -83,67 +83,33 @@ const AuthenticatedUser = () => {
         </div>
       </div>
 
-      {/* Sections link */}
+      {/* Pages link */}
       <div className="container space-y-5">
         {/* Users */}
-        <Link
-          to="/users"
-          className="flex items-center gap-5 justify-between bg-white p-5 rounded-xl"
-        >
-          <div className="flex items-center gap-5">
-            <img
-              width={48}
-              height={48}
-              src={usersIcon}
-              className="size-12"
-              alt="Foydalanuvchilar"
-            />
-
-            <span className="text-lg">Foydalanuvchilar</span>
-          </div>
-
-          <ArrowIcon />
-        </Link>
+        {data?.role === "owner" && (
+          <LinkBox
+            to="/users"
+            icon={usersIcon}
+            alt="Foydalanuvchilar"
+            label="Foydalanuvchilar"
+          />
+        )}
 
         {/* Messages */}
-        <Link
+        <LinkBox
+          alt="Xabar"
           to="/messages"
-          className="flex items-center gap-5 justify-between bg-white p-5 rounded-xl"
-        >
-          <div className="flex items-center gap-5">
-            <img
-              width={48}
-              height={48}
-              alt="Xabar"
-              src={messagesIcon}
-              className="size-12"
-            />
-
-            <span className="text-lg">Xabarlar</span>
-          </div>
-
-          <ArrowIcon />
-        </Link>
+          label="Xabarlar"
+          icon={messagesIcon}
+        />
 
         {/* Groups */}
-        <Link
+        <LinkBox
           to="/groups"
-          className="flex items-center gap-5 justify-between bg-white p-5 rounded-xl"
-        >
-          <div className="flex items-center gap-5">
-            <img
-              width={48}
-              height={48}
-              alt="Guruhlar"
-              src={groupsIcon}
-              className="size-12"
-            />
-
-            <span className="text-lg">Guruhlar</span>
-          </div>
-
-          <ArrowIcon />
-        </Link>
+          alt="Guruhlar"
+          label="Guruhlar"
+          icon={groupsIcon}
+        />
       </div>
 
       {/* Logout */}
