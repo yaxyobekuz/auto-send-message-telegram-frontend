@@ -163,7 +163,7 @@ const AuthenticatedUser = () => {
           <div className="pt-5">
             <button
               onClick={handleLogout}
-              className="btn-primary bg-red-100 text-red-500"
+              className="btn-primary bg-red-100 text-red-500 hover:bg-red-200"
             >
               Chiqish
             </button>
