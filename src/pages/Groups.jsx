@@ -89,7 +89,7 @@ const Content = () => {
       {/* Homepage link */}
       <Link
         to="/"
-        className="flex items-center gap-5 w-full bg-white p-5 rounded-xl"
+        className="flex items-center gap-5 w-full bg-white p-5 rounded-2xl"
       >
         <ArrowIcon direction="left" />
 
@@ -122,15 +122,12 @@ const GroupsList = ({ userData }) => {
 
     api
       .get(`/api/groups/user/${userData._id}`, {
-        params: { page: data?.page, limit: 20 },
+        params: { page: data?.page, limit: 15 },
       })
       .then(({ ok, groups, pages }) => {
         if (!ok) throw new Error();
         updateData({ groups: [...(data?.groups || []), ...groups] });
-
-        if (data?.page >= pages) {
-          return updateData({ finished: true });
-        }
+        if ((data?.page || 1) >= pages) return updateData({ finished: true });
 
         updateData({ page: (data?.page || 1) + 1 });
       })
