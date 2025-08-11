@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Users from "./pages/Users";
 import Groups from "./pages/Groups";
+import Message from "./pages/Message";
 import NotFound from "./pages/NotFound";
 import Messages from "./pages/Messages";
 import NewMessage from "./pages/NewMessage";
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="groups" element={<Groups />} />
         <Route path="messages" element={<Messages />} />
         <Route path="messages/new" element={<NewMessage />} />
+        <Route path="messages/message/:messageId" element={<Message />} />
       </Route>
     )
   );
