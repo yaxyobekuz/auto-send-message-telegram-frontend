@@ -1,5 +1,8 @@
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+// Api
+import api from "../api/config";
 
 // Lottie
 import Lottie from "lottie-react";
@@ -12,6 +15,7 @@ import useStore from "../hooks/useStore";
 import useTelegram from "../hooks/useTelegram";
 
 // Icons
+import snowIcon from "../assets/icons/snow.svg";
 import usersIcon from "../assets/icons/users.svg";
 import logoutIcon from "../assets/icons/logout.svg";
 import groupsIcon from "../assets/icons/groups.svg";
@@ -112,6 +116,9 @@ const AuthenticatedUser = () => {
         />
       </div>
 
+      {/* Freeze */}
+      <Freeze />
+
       {/* Logout */}
       <div className="container mt-auto py-5">
         <details className="bg-white p-5 rounded-2xl">
@@ -136,6 +143,96 @@ const AuthenticatedUser = () => {
           </div>
         </details>
       </div>
+    </div>
+  );
+};
+
+const Freeze = () => {
+  const location = useLocation();
+  const auth = localStorage.getItem("auth");
+
+  const { data, hasError, isLoading, updateData, updateLoading, updateError } =
+    useStore("freeze");
+
+  const isFreezed = data?.status;
+
+  // Freeze holatini olish
+  const loadFreeze = () => {
+    updateError(false);
+    updateLoading(true);
+
+    api
+      .get("/api/freezes/freeze/me")
+      .then(({ ok, freeze }) => {
+        if (!ok) throw new Error();
+        updateData({ status: freeze });
+      })
+      .catch(() => updateError(true))
+      .finally(() => updateLoading(false));
+  };
+
+  // Add Freeze
+  const addFreeze = () => {
+    updateLoading(true);
+    api
+      .post("/api/freezes/freeze")
+      .then(({ ok }) => {
+        if (ok) updateData({ status: true });
+      })
+      .catch(() => updateError(true))
+      .finally(() => updateLoading(false));
+  };
+
+  // Remove Freeze
+  const removeFreeze = () => {
+    updateLoading(true);
+    api
+      .delete("/api/freezes/freeze")
+      .then(({ ok }) => {
+        if (ok) updateData({ status: false });
+      })
+      .catch(() => updateError(true))
+      .finally(() => updateLoading(false));
+  };
+
+  useEffect(() => {
+    const token = JSON.parse(auth);
+    if (token && !data) loadFreeze();
+    if (!token) updateLoading(false);
+  }, [location.pathname]);
+
+  return (
+    <div className="container py-5">
+      <details className="bg-white p-5 rounded-2xl">
+        <summary className="flex items-center justify-between">
+          <img
+            width={48}
+            height={48}
+            alt="Chiqish"
+            src={snowIcon}
+            className="size-12"
+          />
+
+          <span className="text-lg">
+            {isFreezed ? "Muzlatishni olib tashlash" : "Xabarlarni muzlatish"}
+          </span>
+        </summary>
+
+        <div className="pt-5">
+          <button
+            disabled={isLoading}
+            onClick={isFreezed ? removeFreeze : addFreeze}
+            className="btn-primary bg-blue-100 text-blue-500 hover:bg-blue-200 disabled:hover:bg-blue-100"
+          >
+            {isFreezed ? "Olib tashlash" : "Muzlatish"}
+            {isLoading ? "..." : ""}
+          </button>
+
+          {hasError && (
+            <p className="text-red-500 mt-3">Xatolik yuz berdi 😓</p>
+          )}
+        </div>
+      </details>
     </div>
   );
 };
