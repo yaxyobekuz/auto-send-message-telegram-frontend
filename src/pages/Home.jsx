@@ -81,7 +81,7 @@ const AuthenticatedUser = () => {
             <div className="flex items-center gap-2 line-clamp-1">
               <p className="text-blue-500">@{username || "username"}</p>
               <span>|</span>
-              <p className="text-gray-500">{data?.role}</p>
+              <p className="text-gray-500">{data?.phone}</p>
             </div>
           </div>
         </div>
